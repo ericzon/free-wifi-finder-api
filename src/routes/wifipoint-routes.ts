@@ -1,14 +1,10 @@
 "use strict";
 
 import * as express from 'express';
-
+import { WifipointController } from "../controllers/wifipoint.controller";
 export default (app: any) => {
 	console.log("Main routes enabled");
 	const router = express.Router();
-	router.get('/', (req: express.Request, res: express.Response) => {
-		let msg = new Date() + "/ request";
-		console.log("/ ",msg);
-		res.json({ msg: msg });
-	});
+	router.get('/wifipoints', WifipointController.getWifipoints);
 	app.use(router);
 };

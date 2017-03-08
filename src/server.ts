@@ -2,21 +2,37 @@
 
 import * as http from 'http';
 import * as express from "express";
+//import * as mongoose from "mongoose";
+import mongoose = require("mongoose");
 import { RoutesProvider } from './routes';
 import { ToolsController } from './controllers/tools.server.controller';
+//import { wifipointSchema } from "./models/wifipoint";
+require("./models/Wifipoint");
 
-const cfg = require('./config/config');
-const port = ToolsController.normalizePort( process.env.PORT || cfg.port );
+const config = require('./config/config');
+const port = ToolsController.normalizePort( process.env.PORT || config.port );
 const app: express.Application = express();
 
-console.log("Loading config: ",cfg);
+console.log("Loading config: ",config);
+
+// DB
+global.Promise = require("q").Promise;
+mongoose.Promise = global.Promise;
+mongoose.connect(config.db, (err: any, res: any) => {
+  if(err) {
+    console.log("[DB] Error connecting to db. ",err);
+  }
+  console.log("[DB] Connected to DB: ",config.db);
+});
+
+// Routes
 RoutesProvider.initRoutes(app);
 
 const server = http.createServer(app).listen(port);
 
 server.on("listening", function onListening() {
-	var addr = server.address();
-	var bind = typeof addr === "string"
+	let addr = server.address();
+	let bind = typeof addr === "string"
 	? "pipe " + addr
 	: "port " + addr.port;
 	console.log("Listening on " + bind);
@@ -26,8 +42,7 @@ server.on("error", function onError(error: any) {
   if (error.syscall !== "listen") {
     throw error;
   }
-
-  var bind = typeof port === "string"
+  let bind = typeof port === "string"
     ? "Pipe " + port
     : "Port " + port;
 
@@ -44,5 +59,12 @@ server.on("error", function onError(error: any) {
     default:
       throw error;
   }
+});
+
+process.on("SIGINT", () => {
+  mongoose.connection.close(() => {
+    console.log("[DB] Shutting down db connection");
+    process.exit(0);
+  });
 });
 
