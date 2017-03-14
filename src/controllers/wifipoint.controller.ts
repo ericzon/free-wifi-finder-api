@@ -1,17 +1,16 @@
 import * as mongoose from "mongoose";
-import * as express from "express";
-//import { wifipointSchema } from "../models/wifipoint";
+import { Request, Response } from "express";
 
-const Wifipoint = mongoose.model('Wifipoint');
+const Wifipoint = mongoose.model('wifipoint');
+
 export class WifipointController {
-    public static getWifipoints(req: express.Request, res: express.Response) {
-        
-        Wifipoint.find({}, (err: any, wifiRes: any) => {
-            if(err) {
-                console.log("getWifipoints > ERR: ",err);
-            }
-            console.log("getWifipoints > GET ",wifiRes.length);
+    public static getWifipoints(req: Request, res: Response) {
+        Wifipoint.find().limit(1).exec().then(function(wifiRes: any) {
+            console.log("getWifipoints > GET ",wifiRes);
             res.json({bundle: wifiRes});
+        }, function(err: any) {
+            console.log("getWifipoints > ERR: ",err);
+            res.status(500).end();
         });
     }
 }

@@ -27,4 +27,4 @@ wifipointSchema.pre("save", (next) => {
     next();
 });
 
-mongoose.model('Wifipoint', wifipointSchema);
+mongoose.model('wifipoint', wifipointSchema, 'wifipoint');
