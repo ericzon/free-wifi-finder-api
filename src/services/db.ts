@@ -1,3 +1,5 @@
+"use strict";
+
 import mongoose = require("mongoose");
 require("../models/Wifipoint");
 const config = require('../config/config');
