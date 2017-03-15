@@ -2,8 +2,9 @@
 
 import { Schema, Types } from "mongoose";
 import * as mongoose from "mongoose";
+import logger from '../libs/logger';
 
-console.log("Loading model WifipointSchema");
+logger.info("Loading model WifipointSchema");
 export const wifipointSchema: Schema = new Schema({
     CODI_CAPA: String,
     CAPA_GENERICA: String,

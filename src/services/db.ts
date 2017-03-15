@@ -3,28 +3,29 @@
 import mongoose = require("mongoose");
 require("../models/Wifipoint");
 const config = require('../config/config');
+import logger from '../libs/logger';
 
 export class DbHelper {
     public static init() {
-        console.log("DB init");
+        logger.info("DB init");
         global.Promise = require("q").Promise;
         mongoose.Promise = global.Promise;
         mongoose.connect(config.db, function(err: any, db: any) {
             if(err) {
-                console.log("[DB] Error connecting to db. ",err);
+                logger.error("[DB] Error connecting to db. ",err);
             }
-            console.log("[DB] Connected to DB: ",mongoose.connection.db.databaseName);
-            console.log("Collections list:");
+            logger.info("[DB] Connected to DB: ",mongoose.connection.db.databaseName);
+            logger.verbose("Collections list:");
             mongoose.connection.db.collections().then(function(collections) {
                 collections.forEach( c => {
-                    console.log(" - ",c.collectionName );
+                    logger.verbose(" - ",c.collectionName );
                 });
             });            
         });
 
         process.on("SIGINT", () => {
             mongoose.connection.close(() => {
-                console.log("[DB] Shutting down db connection");
+                logger.info("[DB] Shutting down db connection");
                 process.exit(0);
             });
         });
