@@ -6,8 +6,8 @@ import { DbHelper } from "./services/db";
 import { RoutesProvider } from './routes';
 import { ToolsController } from './controllers/tools.server.controller';
 import logger from './libs/logger';
+import config from './config/config';
 
-const config = require('./config/config');
 const port = ToolsController.normalizePort( process.env.PORT || config.port );
 const app: express.Application = express();
 
