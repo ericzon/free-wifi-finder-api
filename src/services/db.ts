@@ -2,7 +2,7 @@
 
 import mongoose = require("mongoose");
 require("../models/Wifipoint");
-const config = require('../config/config');
+import config from '../config/config';
 import logger from '../libs/logger';
 
 export class DbHelper {
