@@ -1,7 +1,7 @@
 "use strict";
 
 import mongoose = require("mongoose");
-require("../models/Wifipoint");
+require("../models/wifipoint/Wifipoint.model");
 import config from '../config/config';
 import logger from '../libs/logger';
 

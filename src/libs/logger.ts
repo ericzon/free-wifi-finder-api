@@ -9,7 +9,6 @@ const consoleTransport = new (winston.transports.Console)({
       timestamp: tsFormat
     });
 
-
 const originalLog = consoleTransport.log;
 consoleTransport.log = function(level: any, msg: any, meta: any, callback: any) {
   if(meta) {

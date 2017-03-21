@@ -2,7 +2,9 @@
 
 import { Schema, Types } from "mongoose";
 import * as mongoose from "mongoose";
-import logger from '../libs/logger';
+import logger from '../../libs/logger';
+const filter = require('mongoose-filter-denormalize').filter;
+const projectionRules = require('./projection').projectionRules;
 
 logger.info("Loading model WifipointSchema");
 export const wifipointSchema: Schema = new Schema({
@@ -29,6 +31,8 @@ export const wifipointSchema: Schema = new Schema({
 		coordinates: []
     }
 });
+// console.log("projectionRules -> ",projectionRules);
+wifipointSchema.plugin(filter, projectionRules);
 
 wifipointSchema.pre("save", (next) => {
     next();
