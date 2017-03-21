@@ -38,7 +38,14 @@ export class WifipointController {
                 }
             }
         };
-        Wifipoint.find(nearestQuery).limit(lim).exec().then(function(nearestRes: any[]) {
+        const wifipointProjection = {
+            'NOM_DISTRICTE':1,
+            'ADRECA':1,
+            'TELEFON':1,
+            'LONGITUD': 1,
+            'LATITUD':1
+        }
+        Wifipoint.find(nearestQuery,wifipointProjection).limit(lim).exec().then(function(nearestRes: any[]) {
             logger.verbose("nearest points: ",nearestRes.length);
             res.json(nearestRes);
         }).catch(function(nearestErr: Error) {
