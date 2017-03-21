@@ -21,11 +21,18 @@ export const wifipointSchema: Schema = new Schema({
     NOM_DISTRICTE: String,
     NOM_BARRI: String,
     ADRECA: String,
-    TELEFON: { type: String, default: ""}
+    TELEFON: { type: String, default: ""},
+    position: {
+        type: { 
+			type: String 
+		},
+		coordinates: []
+    }
 });
 
 wifipointSchema.pre("save", (next) => {
     next();
 });
 
+wifipointSchema.index( { position:'2dsphere' } );
 mongoose.model('wifipoint', wifipointSchema, 'wifipoint');

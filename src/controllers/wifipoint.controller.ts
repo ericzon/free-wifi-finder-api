@@ -20,8 +20,30 @@ export class WifipointController {
 
     public static getNearestWifipoints(req: Request, res: Response) {
         let body = req.body;
-        // console.log(req);
         logger.verbose("getNearestWifipoints > POST > body: ",body);
-        res.json(body);
+        const hardLimit = 10;
+        const lim = (body.limit && body.limit < hardLimit) ? body.limit : hardLimit;
+        const positionCoords = body.coords;
+        const nearestQuery = {
+            position: {
+                $near: {
+                    $geometry: {
+                        type: "Point" ,
+                        coordinates: [
+                            positionCoords.lng ,
+                            positionCoords.lat 
+                        ]
+                    },
+                    $maxDistance: 10000
+                }
+            }
+        };
+        Wifipoint.find(nearestQuery).limit(lim).exec().then(function(nearestRes: any[]) {
+            logger.verbose("nearest points: ",nearestRes.length);
+            res.json(nearestRes);
+        }).catch(function(nearestErr: Error) {
+            logger.error(nearestErr.message);
+            res.json([]);
+        });
     }
 }
