@@ -1,5 +1,6 @@
-NodeTs Bootstrap
-================
+Free Wifi Finder API
+====================
 
-Just a simple codebase to start a NodeJs API using Typescript & ES6. Project adapted from yeoman generator https://www.npmjs.com/package/generator-nodejs-cli-typescript
+NodeJs + Ts API to serve free wifi points on Barcelona. Connected with free-wifi-finder repo.
+https://github.com/ericzon/free-wifi-finder
 
